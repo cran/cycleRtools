@@ -1,7 +1,7 @@
 #' Inverse critical power modelling.
 #'
 #' Generate critical power parameters via a linearised inverse time model.
-#' Mainly useful when the length of inputs is <= 2, making
+#' Mainly useful when the length of inputs is == 2, making
 #' \code{\link[stats]{nls}} inappropriate.
 #'
 #' @param P numeric; maximal mean power values for time periods given in the

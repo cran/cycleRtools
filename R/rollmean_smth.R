@@ -20,12 +20,13 @@
 #' @return a vector of the same length as the \code{column}.
 #'
 #' @examples
+#' \dontrun{
 #' data(cycling_data)
 #' # Smooth power data with a 30 second moving average.
 #' rollmean_smth(cycling_data, power.W, 30)
 #' # Or alternatively, use an exponentially weighted moving average.
 #' rollmean_smth(cycling_data, power.W, 30, ema = TRUE)
-#'
+#' }
 #' @export
 rollmean_smth <- function(data, column, smth.pd, ema = FALSE, delta = NULL,
                           verbose = TRUE, .uniform = FALSE) {

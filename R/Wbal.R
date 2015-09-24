@@ -12,7 +12,7 @@
 #' @return A numeric vector of W' balance values, in \strong{kilojoules}.
 #'
 #' @examples
-#' data(cyling_data)
+#' data(cycling_data)
 #' cycling_data$Wexp.kJ <-
 #'   Wbal(cycling_data, timer.s, power.smooth.W, CP = 300)
 #'

@@ -24,7 +24,7 @@ underlying algorithm is published in Skiba \emph{et al.} (2012), and can also
 be examined in the function source code.
 }
 \examples{
-data(cyling_data)
+data(cycling_data)
 cycling_data$Wexp.kJ <-
   Wbal(cycling_data, timer.s, power.smooth.W, CP = 300)
 }

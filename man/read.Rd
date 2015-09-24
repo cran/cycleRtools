@@ -38,24 +38,33 @@ Read data from a cycling head unit into the R environment; optionally
 formatting it for use with other functions in this package.
 }
 \details{
-Returns a data frame with all data parsed from the file; with an
-  additional lap (factor) column appended in the case of \code{read_fit()}.
+Returns a data frame with all data parsed from the file; with an additional
+lap (factor) column appended in the case of \code{read_fit()}.
 
-  Note that most functions within this package depend on imported data being
-  formatted; i.e. \code{read*("file_path", format = TRUE)}. Hence, unless the
-  raw data is of particular interest and/or the user wants to process it
-  manually, the format argument should be TRUE (default). When working with a
-  formatted dataset, do not change existing column names. The formatted structure
-  is described in detail in \link{cycling_data}.
+Note that most functions within this package depend on imported data being
+formatted; i.e. \code{read*("file_path", format = TRUE)}. Hence, unless the
+raw data is of particular interest and/or the user wants to process it
+manually, the format argument should be TRUE (default). When working with a
+formatted dataset, do not change existing column names. The formatted data
+structure is described in detail in \link{cycling_data}.
+
+Garmin .fit file data is parsed with the java command line tool provided in
+the \href{http://www.thisisant.com/resources/fit}{FIT SDK}. The latest source
+code and licensing information can be found at the previous link.
+
+SRM device files (.srm) are also parsed at the command line, provided
+\href{http://www.zuto.de/project/srmio/}{Rainer Clasen's srmio library} is
+installed and available. The associated GitHub repo' can be found
+\href{https://github.com/rclasen/srmio}{here}.
 }
 \section{Functions}{
 \itemize{
 \item \code{read}: A wrapper for read_* functions that chooses the appropriate
   function based on file extension.
 
-\item \code{read_fit}: Read a Garmin (Ltd) device .fit file. This invokes the
-  system \code{java} command to execute the FitCSVTool.jar from the
-  \href{http://www.thisisant.com/resources/fit}{FIT SDK}. Hence, this
+\item \code{read_fit}: Read a Garmin (Ltd) device .fit file. This invokes
+  \code{\link[base]{system2}} to execute the FitCSVTool.jar command line tool
+  (see \href{http://www.thisisant.com/resources/fit}{FIT SDK}). Hence, this
   function requires that Java (JRE/JDK) binaries be on the system path.
 
 \item \code{read_pwx}: Read a Training Peaks .pwx file. Requires the "XML"

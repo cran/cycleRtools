@@ -1,6 +1,6 @@
-#' @describeIn read Read a Garmin (Ltd) device .fit file. This invokes the
-#'   system \code{java} command to execute the FitCSVTool.jar from the
-#'   \href{http://www.thisisant.com/resources/fit}{FIT SDK}. Hence, this
+#' @describeIn read Read a Garmin (Ltd) device .fit file. This invokes
+#'   \code{\link[base]{system2}} to execute the FitCSVTool.jar command line tool
+#'   (see \href{http://www.thisisant.com/resources/fit}{FIT SDK}). Hence, this
 #'   function requires that Java (JRE/JDK) binaries be on the system path.
 #'
 #' @export

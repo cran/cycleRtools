@@ -36,10 +36,12 @@ done via \code{\link{uniform}} by the first column of the data; thus allowing
 the \code{column} to be smoothed.
 }
 \examples{
+\dontrun{
 data(cycling_data)
 # Smooth power data with a 30 second moving average.
 rollmean_smth(cycling_data, power.W, 30)
 # Or alternatively, use an exponentially weighted moving average.
 rollmean_smth(cycling_data, power.W, 30, ema = TRUE)
+}
 }
 

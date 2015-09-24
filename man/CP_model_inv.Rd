@@ -17,7 +17,7 @@ a named vector of parameters (CP and W').
 }
 \description{
 Generate critical power parameters via a linearised inverse time model.
-Mainly useful when the length of inputs is <= 2, making
+Mainly useful when the length of inputs is == 2, making
 \code{\link[stats]{nls}} inappropriate.
 }
 
