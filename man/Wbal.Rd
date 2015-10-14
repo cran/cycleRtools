@@ -4,7 +4,7 @@
 \alias{Wbal}
 \title{W' balance.}
 \usage{
-Wbal(data, time = "timer.s", pwr = "power.W", CP)
+Wbal(data, time = "timer.s", pwr = "power.W", CP, .string = FALSE)
 }
 \arguments{
 \item{data}{a data.frame/matrix object with time and power columns.}
@@ -14,6 +14,9 @@ Wbal(data, time = "timer.s", pwr = "power.W", CP)
 \item{pwr}{character; name of the power (watts) column in \code{data}.}
 
 \item{CP}{a critical power value for use in the calculation.}
+
+\item{.string}{are column name arguments given as character strings? A
+  backdoor around non-standard evaluation. Mainly for internal use.}
 }
 \value{
 A numeric vector of W' balance values, in \strong{kilojoules}.

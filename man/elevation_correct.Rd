@@ -4,17 +4,13 @@
 \alias{elevation_correct}
 \title{Generate reliable elevation data.}
 \usage{
-elevation_correct(data, country, dir = "default")
+elevation_correct(data, country)
 }
 \arguments{
 \item{data}{a dataset with longitude ("lng") and lattitude ("lat") columns.}
 
 \item{country}{character string; the country to which the data pertain, given
-as an ISO3 code (see \code{raster::getData("ISO3")})}
-
-\item{dir}{the directory in which the necessary elevation data is contained
-  or should be downloaded. "default" creates a hidden directory
-  (.elevation_data) in the home directory.}
+  as an ISO3 code (see \code{raster::getData("ISO3")})}
 }
 \value{
 a vector of elevation values. If there is an error at any stage, a
@@ -23,7 +19,7 @@ a vector of elevation values. If there is an error at any stage, a
 \description{
 Using the latitude and longitude columns of the supplied \emph{formatted}
 data, a vector of elevation values is returned of the same length. If no
-elevation data files exist within the specified directory, files are first
+elevation data files exist within the working directory, files are first
 downloaded. Note that NAs in the data will return corresponding NAs in the
 corrected elevation.
 }

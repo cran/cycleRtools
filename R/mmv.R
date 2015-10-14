@@ -11,8 +11,8 @@
 #'   If NULL (default), the most appropriate value is estimated.
 #' @param verbose should messages be printed to the console?
 #' @param .uniform are the rows of the data already uniform?
-#' @param .correct should corrected power values be generated? Mainly for
-#'   internal use.
+#' @param .string are column name arguments given as character strings? A
+#'   backdoor around non-standard evaluation. Mainly for internal use.
 #'
 #' @return a matrix object with two rows: 1) best mean value(s) and 2) the time
 #'   at which that value was recorded
@@ -29,22 +29,19 @@
 #'   \code{\link{mmv2}}
 #'
 #' @export
-mmv <- function(data, column, pds, delta = NULL, verbose = TRUE,
-                          .uniform = FALSE, .correct = FALSE)
+mmv            <- function(data, column, pds, delta = NULL, verbose = TRUE,
+                           .uniform = FALSE, .string = FALSE)
   UseMethod("mmv", data)
 #' @export
-mmv <- function(data, column, pds, delta = NULL, verbose = TRUE,
-                          .uniform = FALSE, .correct = FALSE)
+mmv.default    <- function(data, column, pds, delta = NULL, verbose = TRUE,
+                           .uniform = FALSE, .string = FALSE)
   format_error()
 #'@export
-mmv <- function(data, column, pds, delta = NULL, verbose = TRUE,
-                          .uniform = FALSE, .correct = FALSE) {
+mmv.cycleRdata <- function(data, column, pds, delta = NULL, verbose = TRUE,
+                           .uniform = FALSE, .string = FALSE) {
+  if (!.string)
+    column <- as.character(substitute(column))
 
-  if (.correct) {
-    column <- "power.smooth.W"
-    data[, column] <- data[, column] ^ 4
-  }
-  column <- as.character(substitute(column))
   data   <- data[c("timer.s", column)]
   if (!.uniform)
     data <- uniform(data, delta, verbose, .return_delta = TRUE)
@@ -63,8 +60,6 @@ mmv <- function(data, column, pds, delta = NULL, verbose = TRUE,
   }
 
   max_vals <- sapply(pds, FUN = mm_fn)
-  if (.correct)
-    max_vals[1,] <- max_vals[1,] ^ (1 / 4)
   max_vals <- round(max_vals, digits = 2)
   rownames(max_vals) = c("Best mean value", "Recorded @")
   colnames(max_vals) <- paste(pds)

@@ -16,10 +16,12 @@ delta_estimate <- function(x) {
 
 # Generate colour palette without dependencies.
 base_pal <- function(x, s) {
+  # s = unique values;
+  # x = subsequently matched against s to give hex colour codes.
   if (length(s) == 1)
     return("#000000")
   else
-    topo.colors(length(s))[match(x, s)]
+    rainbow(n = length(s))[match(x, s)]
 }
 
 # Exponentially-weighted moving average weights.

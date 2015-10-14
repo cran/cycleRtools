@@ -5,7 +5,7 @@
 \title{Smooth a column of a dataset.}
 \usage{
 rollmean_smth(data, column, smth.pd, ema = FALSE, delta = NULL,
-  verbose = TRUE, .uniform = FALSE)
+  verbose = TRUE, .uniform = FALSE, .string = FALSE)
 }
 \arguments{
 \item{data}{a data.frame or matrix object to use for smoothing. The data is
@@ -23,6 +23,9 @@ If NULL (default) a best estimate is used.}
 \item{verbose}{should messages be printed to the console?}
 
 \item{.uniform}{are the rows of the data already uniform?}
+
+\item{.string}{are column name arguments given as character strings? A
+  backdoor around non-standard evaluation. Mainly for internal use.}
 }
 \value{
 a vector of the same length as the \code{column}.

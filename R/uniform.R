@@ -25,6 +25,7 @@
 #'
 #' @export
 uniform <- function(data, delta = NULL, verbose = TRUE, .return_delta = FALSE) {
+  oclass <- class(data)  # Store original class.
   # Get delta value-------------------------------------------------------------
   # Validate input.
   if (!is.null(delta))
@@ -63,5 +64,6 @@ uniform <- function(data, delta = NULL, verbose = TRUE, .return_delta = FALSE) {
       data.full[, c(1, grep("\\.x$", colnames(data.full)))]
     colnames(data.full) <- colnames(data)
     if (.return_delta) assign("delta", delta, pos = parent.frame())
+    class(data.full) <- oclass  # Restore class
     return(data.full)
 }

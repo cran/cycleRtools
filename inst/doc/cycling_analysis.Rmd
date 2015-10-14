@@ -17,7 +17,7 @@ The following is a simple example workflow to illustrate the core functions of t
 
 ## Importing Data 
 
-Firstly, we need to import some data. For this example, I'll import one of my own rides from a Garmin 810 head-unit (the same data are made available with this package; see `data(cycling_data)`)
+Firstly, we need to import some data. For this example, I'll import one of my own rides from a Garmin 810 head-unit (the same data are made available within this package; see `data(cycling_data)`)
 
 ```{r}
 library(cycleRtools)
@@ -38,7 +38,7 @@ f <- "path/to/file.fit"
 cycling_data <- read_fit(f, format = TRUE)
 ```
 
-At this point I should apologise that `read_*()` functions currently lack portability. This is a shortfall of the package that results from the complex file structures of most cycling head-units. It is also one I would like to rectify in future releases.
+At this point I should apologise that `read_*()` functions lack portability. This is a shortfall of the package that results from the complex file structures of most cycling head-units. It is also one I would like to rectify in future releases.
 
 ## "cycleRdata" Format
 
@@ -69,13 +69,12 @@ These data and others can then be plotted:
 ```{r, fig.height=5, fig.width=7}
 Wbal_plots(data = cycling_data,
            x    = 2,     # Plot against distance.
-           CP   = 330,   # Not necessary; annotates power plot.
-           n    = 2)     # Omit elevation profile; see ?Wbal_plots.
+           CP   = 330)   # Not necessary; annotates power plot.
 ```
 
 ## Correct Elevation Data
 
-The barometric altimeters in GPS head-units are cannot always be trusted to provide accurate and(or) reliable topographical data. This package can *at least* generate reliable values via positional coordinates (if available):
+The barometric altimeters in GPS head-units are cannot always be trusted to provide accurate and(or) reliable topographical data. This package can *at least* generate *reliable* values via positional coordinates (if available):
 
 ```r
 # When invoked for the first time, this requires an internet connection to
@@ -143,10 +142,10 @@ zone_time(data    = cycling_data,
           zbounds = c(300, 400),   # Zone boundaries.
           pct     = TRUE)          # Return zone times as percentages.
 
-# Display this information as a ggplot:
-dist_plot(data    = cycling_data, 
-          column  = power.W, 
-          zbounds = c(300, 400))
+# And plot the above:
+zdist_plot(data    = cycling_data, 
+          column   = power.W, 
+          zbounds  = c(300, 400))
 ```
 
 These analyses are made possible by the function `zone_index()`, which generates a zone identifier column for a numeric vector according to supplied boundaries. This identifier can then be used for factor-wise operations (i.e. `tapply()`). This will be useful for those wanting to conduct heart rate zone analyses etc.

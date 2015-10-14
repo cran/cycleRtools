@@ -2,10 +2,10 @@
 #'   package to be installed. \code{\link{read_pwx2}} is a faster alternative
 #'   that uses system commands.
 #' @export
-read_pwx <- function(file, format = TRUE, .list = FALSE) {
+read_pwx <- function(file = file.choose(), format = TRUE, .list = FALSE) {
   message("Reading .pwx file...")
-  file_xml <- XML::xmlParse(file)
-  namespace <- XML::xmlNamespaceDefinitions(file_xml)[[1]]$uri
+  file_xml  <- XML::xmlParse(file)
+  namespaces <- XML::xmlNamespaceDefinitions(file_xml, simplify = TRUE)
   columns <- names(XML::xmlChildren(
     XML::xmlRoot(file_xml)[["workout"]][["sample"]]
   ))
@@ -14,12 +14,18 @@ read_pwx <- function(file, format = TRUE, .list = FALSE) {
     message(rep("=", times = pblen), appendLF = FALSE)
     XML::xpathSApply(
       file_xml, path = paste0("//ns:", x),
-      namespaces = c(ns = namespace), simplify = TRUE,
+      namespaces = c(ns = namespaces[[1]]), simplify = TRUE,
       fun = XML::xmlValue) -> out
     return(as.numeric(out))
   })
   message("\nDone.")
   names(data) <- columns
+  # Timestamp values------------------------------------------------------------
+  timestamp <- XML::xmlValue(XML::xmlRoot(file_xml)[["workout"]][["time"]])
+  timestamp <- sub("T", " ", timestamp)
+  timestamp <- strptime(timestamp, "%Y-%m-%d %H:%M:%S")
+  data$timestamp <- timestamp + data$timeoffset
+  #-----------------------------------------------------------------------------
   if (.list)
     return(data)
   # Are all objects the same length?
@@ -32,12 +38,6 @@ read_pwx <- function(file, format = TRUE, .list = FALSE) {
     data <- sapply(data, function(x) x[1:min(len)])
   }
   data <- as.data.frame(data)
-  # Timestamp values------------------------------------------------------------
-  timestamp <- XML::xmlValue(XML::xmlRoot(file_xml)[["workout"]][["time"]])
-  timestamp <- sub("T", " ", timestamp)
-  timestamp <- strptime(timestamp, "%Y-%m-%d %H:%M:%S")
-  data$timestamp <- timestamp + data$timeoffset
-  #-----------------------------------------------------------------------------
   if (format) {
     data <- format_pwx(data)
     class(data) <- c("cycleRdata", "data.frame")

@@ -41,7 +41,7 @@
 #' @import graphics
 #' @import grDevices
 #' @import utils
-read <- function(file, format = TRUE, .list = FALSE) {
+read <- function(file = file.choose(), format = TRUE, .list = FALSE) {
   if (grepl("\\.fit$", file))
     data <- read_fit(file, format)
   else if (grepl("\\.srm$", file))
@@ -54,7 +54,12 @@ read <- function(file, format = TRUE, .list = FALSE) {
       data <- read_pwx(file, format, .list)
   }
   else if (grepl("\\.tcx$", file))
-    data <- read_tcx2(file, format, .list)
+  {
+    if (system2("xml2 test", stdout = FALSE, stderr = FALSE) != 127)
+      data <- read_tcx2(file, format, .list)
+    else
+      data <- read_tcx(file, format, .list)
+  }
   else
   {
     message("Unrecognised file extension, returning NULL.")

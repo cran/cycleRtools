@@ -3,16 +3,16 @@ format_fit <- function(data) {
   data_formatted <- ride_data_skeleton(dim(data)[[1]])
   #-----------------------------------------------------------------------------
   data_formatted$timer.s <-
-    as.numeric(data$record.timestamp.s. - data$record.timestamp.s.[[1]])
+    data$record.timestamp.s. - data$record.timestamp.s.[[1]]
 
   data_formatted$timer.min <-
     data_formatted$timer.s / 60
 
-  data_formatted$timestamp <-
-    data$record.timestamp.s.
-
   data_formatted$delta.t <-
     c(0, diff(data_formatted$timer.s))
+
+  data_formatted$timestamp <-
+    as.POSIXct(data$record.timestamp.s., tz = "UTC", origin = "1989-12-31")
 
   data_formatted$lap <-
     data$lap

@@ -16,6 +16,8 @@
 #'   If NULL (default) a best estimate is used.
 #' @param verbose should messages be printed to the console?
 #' @param .uniform are the rows of the data already uniform?
+#' @param .string are column name arguments given as character strings? A
+#'   backdoor around non-standard evaluation. Mainly for internal use.
 #'
 #' @return a vector of the same length as the \code{column}.
 #'
@@ -29,8 +31,9 @@
 #' }
 #' @export
 rollmean_smth <- function(data, column, smth.pd, ema = FALSE, delta = NULL,
-                          verbose = TRUE, .uniform = FALSE) {
-  column <- as.character(substitute(column))
+                          verbose = TRUE, .uniform = FALSE, .string = FALSE) {
+  if (!.string)
+    column <- as.character(substitute(column))
   # Isolate relevant data.
   col1 <- names(data)[[1]]
   data <- data[c(col1, column)]
@@ -48,7 +51,7 @@ rollmean_smth <- function(data, column, smth.pd, ema = FALSE, delta = NULL,
 
   if (ema)
     smth.data <- rollmean_ema_(data[, column], {smth.pd / delta},
-                              ema_weights({smth.pd / delta}))
+                               ema_weights({smth.pd / delta}))
   else
     smth.data <- rollmean_(data[, column], {smth.pd / delta})
   # Strip NAs added by uniform().

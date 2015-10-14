@@ -1,0 +1,17 @@
+Changes in 1.0.2
+	* New function for interval detection added: interval_detect(). An example
+	  data set (`interval_data`) also added to compliment this change.
+	* Removed ggplot dependency in zdist_plot() (formerly dist_plot()); now uses
+	  base plot.
+	* XML:: solution for reading Garmin .tcx files added.
+	* Plotting functions improved; largely to make them more flexible.
+	* Summary S3 method added for `cycleRdata` objects.
+	* Added an argument to circumvent non-standard evaluation (`.string`).
+	* Timestamps now retrieved from .srm files.
+	* elevation_correct() now will only write to the working directory.
+
+Changes in 1.0.1
+	* Typo in Wbal() example corrected.
+
+Changes in 1.0.0
+	* First official version; released on CRAN.

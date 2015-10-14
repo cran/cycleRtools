@@ -15,8 +15,7 @@ summary(cycling_data$Wexp.kJ)
 ## ---- fig.height=5, fig.width=7------------------------------------------
 Wbal_plots(data = cycling_data,
            x    = 2,     # Plot against distance.
-           CP   = 330,   # Not necessary; annotates power plot.
-           n    = 2)     # Omit elevation profile; see ?Wbal_plots.
+           CP   = 330)   # Not necessary; annotates power plot.
 
 ## ---- fig.width=7--------------------------------------------------------
 par(mfrow = c(1, 2), mar = c(4.1, 4.1, 1.1, 1.1))
@@ -53,10 +52,10 @@ zone_time(data    = cycling_data,
           zbounds = c(300, 400),   # Zone boundaries.
           pct     = TRUE)          # Return zone times as percentages.
 
-# Display this information as a ggplot:
-dist_plot(data    = cycling_data, 
-          column  = power.W, 
-          zbounds = c(300, 400))
+# And plot the above:
+zdist_plot(data    = cycling_data, 
+          column   = power.W, 
+          zbounds  = c(300, 400))
 
 ## ------------------------------------------------------------------------
 # A hypothetical, and tragically short, 1 minute ride.

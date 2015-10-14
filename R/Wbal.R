@@ -8,6 +8,8 @@
 #' @param time character; name of the time (seconds) column in \code{data}.
 #' @param pwr character; name of the power (watts) column in \code{data}.
 #' @param CP a critical power value for use in the calculation.
+#' @param .string are column name arguments given as character strings? A
+#'   backdoor around non-standard evaluation. Mainly for internal use.
 #'
 #' @return A numeric vector of W' balance values, in \strong{kilojoules}.
 #'
@@ -24,9 +26,11 @@
 #'   \href{http://www.ncbi.nlm.nih.gov/pubmed/22382171}{PubMed link}.
 #'
 #' @export
-Wbal <- function(data, time = "timer.s", pwr = "power.W", CP) {
-  time  <- data[, as.character(substitute(time))]
-  pwr   <- data[, as.character(substitute(pwr))]
+Wbal <- function(data, time = "timer.s", pwr = "power.W", CP, .string = FALSE) {
+  if (!.string) {
+    time  <- data[, as.character(substitute(time))]
+    pwr   <- data[, as.character(substitute(pwr))]
+  }
 
   out <- Wbal_(time, pwr, CP)  # Rcpp.
   out <- out / 1000            # J to kJ.

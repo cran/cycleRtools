@@ -11,6 +11,9 @@ format_srm <- function(data) {
   data_formatted$delta.t <-
     c(0, diff(data_formatted$timer.s))
 
+  data_formatted$timestamp <-
+    as.POSIXct(data$time, tz = "", origin = "1970-01-01")
+
   data_formatted$speed.kmh <-
     data$speed
 
@@ -19,6 +22,9 @@ format_srm <- function(data) {
 
   data_formatted$elevation.m <-
     data$ele
+
+  data_formatted$elevation.m <-
+    predict(smooth.spline(data_formatted$elevation.m))$y
 
   data_formatted$delta.elev <-
     c(0, diff(data_formatted$elevation.m))

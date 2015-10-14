@@ -22,7 +22,12 @@
 #' @export
 download_elev_data <- function(country = "all") {
   if (country == "all") {
-    message("DOWNLOADING ALL AVAILABLE ELEVATION DATA.")
+    response <-
+      readline(paste("This will download ALL available elevation data, and will take some time.",
+                     "Continue [Y/N]? "))
+    if (!grepl(pattern = "y", response, ignore.case = TRUE))
+      stop("Download aborted.", call. = FALSE)
+
     mx <- raster::getData("ISO3")
     for (i in mx[, 1]) {
       message(rep("-", times = 50))

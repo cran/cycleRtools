@@ -4,7 +4,7 @@
 \alias{zone_time}
 \title{Calculate time in zones.}
 \usage{
-zone_time(data, column = "power.W", zbounds, pct = FALSE)
+zone_time(data, column = "power.W", zbounds, pct = FALSE, .string = FALSE)
 }
 \arguments{
 \item{data}{a \strong{formatted} dataset produced by \code{read*()}.}
@@ -15,6 +15,9 @@ relate.}
 \item{zbounds}{numeric; zone boundaries.}
 
 \item{pct}{should percentage values be returned?}
+
+\item{.string}{are column name arguments given as character strings? A
+  backdoor around non-standard evaluation. Mainly for internal use.}
 }
 \value{
 a data frame of zone times.

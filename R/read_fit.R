@@ -4,7 +4,7 @@
 #'   function requires that Java (JRE/JDK) binaries be on the system path.
 #'
 #' @export
-read_fit <- function(file, format = TRUE) {
+read_fit <- function(file = file.choose(), format = TRUE) {
   if (system2("java", stdout = FALSE, stderr = FALSE) == 127)
     stop("java binaries not installed/on system path", call. = FALSE)
   FitCSVTool <- system.file("java/FitCSVTool.jar", package = "cycleRtools")
@@ -34,10 +34,7 @@ read_fit <- function(file, format = TRUE) {
   record_data$lap[1] <- 1
   record_data$lap <- cumsum(record_data$lap)
   record_data$lap <- factor(record_data$lap, ordered = TRUE)
-  #-----------------------------------------------------------------------------
-  record_data$record.timestamp.s. <- as.POSIXct(
-    record_data$record.timestamp.s., tz = "UTC", origin = "1989-12-31"
-  )
+
   message("Done.")
   # Format----------------------------------------------------------------------
   if (format) {

@@ -5,7 +5,7 @@
 \title{Smoothed data plot.}
 \usage{
 smth_plot(data, x = "timer.s", yraw = "power.W", ysmth = "power.smooth.W",
-  xlim = NULL, ...)
+  colour = "lap", ..., .string = FALSE)
 }
 \arguments{
 \item{data}{the dataset to be used.}
@@ -16,17 +16,24 @@ smth_plot(data, x = "timer.s", yraw = "power.W", ysmth = "power.smooth.W",
 
 \item{ysmth}{column identifier for the smoothed data.}
 
-\item{xlim}{optional xlim values to be passed to \code{plot()}.}
+\item{colour}{level identifier in \code{data} by which to colour lines. Or a
+colour name. Or simply a nonexistent column name (equivalent to "black").}
 
 \item{...}{further arguments to be passed to \code{plot()}.}
+
+\item{.string}{are column name arguments given as character strings? A
+  backdoor around non-standard evaluation. Mainly for internal use.}
 }
 \description{
-Create a plot with both raw and smoothed data lines. Convenience wrapper for
-\link[graphics]{plot} whereby two plots are overaid with \code{par(new =
-TRUE)}.
+Create a plot with both raw and smoothed data lines.
 }
 \examples{
 data(cycling_data)
-smth_plot(cycling_data, timer.s, power.W, power.smooth.W)  # Default arguments.
+# Create some artificial laps.
+cycling_data$lap <- floor(seq(from = 1, to = 5, along.with = cycling_data[, 1]))
+# Plot:
+smth_plot(cycling_data, timer.s, power.W, power.smooth.W, colour = "lap")
+# Plot with a single blue line:
+smth_plot(cycling_data, colour = "blue")  # Default arguments.
 }
 

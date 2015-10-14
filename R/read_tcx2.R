@@ -1,7 +1,7 @@
 #' @describeIn read Read a Garmin .tcx file. Fast and dirty command line
 #'   parsing. Requires the command line tool "xml2" to be installed.
 #' @export
-read_tcx2 <- function(file, format = TRUE, .list = FALSE) {
+read_tcx2 <- function(file = file.choose(), format = TRUE, .list = FALSE) {
   if (system2("xml2", stdout = FALSE, stderr = FALSE) == 127)
     stop("xml2 not installed/on system path.", call. = FALSE)
   message("Reading .tcx file...")
@@ -53,7 +53,7 @@ read_tcx2 <- function(file, format = TRUE, .list = FALSE) {
   }
   data <- as.data.frame(data)
   if (format) {
-    data <- format_tcx(data)
+    data <- format_tcx2(data)
     class(data) <- c("cycleRdata", "data.frame")
   }
   return(data)

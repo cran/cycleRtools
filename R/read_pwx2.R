@@ -1,7 +1,7 @@
 #' @describeIn read Read a Training Peaks .pwx file. Requires the command
 #'   line tool "xml2" to be installed.
 #' @export
-read_pwx2 <- function(file, format = TRUE, .list = FALSE) {
+read_pwx2 <- function(file = file.choose(), format = TRUE, .list = FALSE) {
   if (system2("xml2", stdout = FALSE, stderr = FALSE) == 127)
     stop("xml2 not installed/on system path.", call. = FALSE)
   message("Reading .pwx file...")
@@ -17,6 +17,17 @@ read_pwx2 <- function(file, format = TRUE, .list = FALSE) {
     return(as.numeric(out))
   })
   names(data) <- columns
+  # Timestamp values------------------------------------------------------------
+  timestamp <-
+    system2("cat", args = c(
+      tmpf, "| grep",
+      paste0("'^/pwx/workout/time='"),
+      "| cut -d= -f2"
+    ), stdout = TRUE)
+  timestamp <- sub("T", " ", timestamp)
+  timestamp <- strptime(timestamp, "%Y-%m-%d %H:%M:%S")
+  data$timestamp <- timestamp + data$timeoffset
+  #-----------------------------------------------------------------------------
   if (.list)
     return(data)
   # Are all objects the same length?
@@ -29,17 +40,6 @@ read_pwx2 <- function(file, format = TRUE, .list = FALSE) {
     data <-sapply(data, function(x) x[1:min(len)])
   }
   data <- as.data.frame(data)
-  # Timestamp values------------------------------------------------------------
-  timestamp <-
-    system2("cat", args = c(
-      tmpf, "| grep",
-      paste0("'^/pwx/workout/time='"),
-      "| cut -d= -f2"
-    ), stdout = TRUE)
-  timestamp <- sub("T", " ", timestamp)
-  timestamp <- strptime(timestamp, "%Y-%m-%d %H:%M:%S")
-  data$timestamp <- timestamp + data$timeoffset
-  #-----------------------------------------------------------------------------
   if (format) {
     data <- format_pwx(data)
     class(data) <- c("cycleRdata", "data.frame")

@@ -1,4 +1,4 @@
-format_tcx <- function(data) {
+format_tcx2 <- function(data) {
   message("Formatting data...")
   data_formatted <- ride_data_skeleton(dim(data)[[1]])
   #-----------------------------------------------------------------------------
@@ -17,14 +17,14 @@ format_tcx <- function(data) {
   data_formatted$distance.km <-
     data$DistanceMeters / 1000
 
-  if (!is.null(data$LatitudeDegrees))
-    data_formatted$lat <- data$LatitudeDegrees
+  if (!is.null(data$PositionLatitudeDegrees))
+    data_formatted$lat <- data$PositionLatitudeDegrees
 
-  if (!is.null(data$LongitudeDegrees))
-    data_formatted$lng <- data$LongitudeDegrees
+  if (!is.null(data$PositionLongitudeDegrees))
+    data_formatted$lng <- data$PositionLongitudeDegrees
 
-  if (!is.null(data$Speed))
-    data_formatted$speed.kmh <- (data$Speed * 60 ^ 2) / 1000
+  if (!is.null(data$ExtensionsTPXSpeed))
+    data_formatted$speed.kmh <- (data$ExtensionsTPXSpeed * 60 ^ 2) / 1000
 
   data_formatted$elevation.m <-
     data$AltitudeMeters
@@ -37,9 +37,9 @@ format_tcx <- function(data) {
   data_formatted$VAM[[1]] <- 0
   data_formatted$VAM[data_formatted$VAM < 0] <- 0
 
-  if (!is.null(data$Watts)) {
+  if (!is.null(data$ExtensionsTPXWatts)) {
     data_formatted$power.W <-
-      data$Watts
+      data$ExtensionsTPXWatts
 
     data_formatted$power.smooth.W <-
       rollmean_smth(data_formatted, "power.W", 25, ema = TRUE)

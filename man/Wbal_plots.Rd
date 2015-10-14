@@ -4,19 +4,26 @@
 \alias{Wbal_plots}
 \title{W' balance plots.}
 \usage{
-Wbal_plots(data, x = 1, CP = NULL, n = 3, xlim = NULL)
+Wbal_plots(data, x = 1, n = c(1, 2, 3), xlab = NULL, xlim = NULL,
+  CP = NULL, laps = FALSE, ...)
 }
 \arguments{
 \item{data}{a \strong{formatted} dataset produced by \code{read*()}.}
 
-\item{x}{numeric; \code{1} will plot against time and \code{2} will plot
-against distance.}
+\item{x}{numeric; \code{1} will plot against time (sec); \code{2} will plot
+against time (minutes); and \code{3} will plot against distance.}
+
+\item{n}{plots to be created (see details).}
+
+\item{xlab}{character; x axis label for bottom plot.}
+
+\item{xlim}{given in terms of \code{x}.}
 
 \item{CP}{a value for critical power annotation.}
 
-\item{n}{how many plots should be created (see details).}
+\item{laps}{logical; should laps be seperately coloured?}
 
-\item{xlim}{passed to \code{\link[graphics]{plot}}.}
+\item{...}{graphical parameters to be passed to \code{par()}.}
 }
 \value{
 a variable number of plots.
@@ -25,18 +32,20 @@ a variable number of plots.
 Generate three plots that effectively summarise a whole cycling dataset.
 }
 \details{
-When passed a \strong{formatted} dataset, creates a column of three
-  plots: \enumerate{\item W' balance. \item Power (raw with 25 sec moving
-  averaged overlaid). \item Elevation profile} How many of these plots are
-  shown is controlled by the \code{n} argument.
+The \code{n} argument describes plot options such that: \enumerate{\item
+plots W' balance (kJ). \item plots power data (W). \item plots an elevation
+profile (m).} These options can be concatenated to produce a stack of plots
+as desired.
 }
 \examples{
 data(cycling_data)
-Wbal_plots(cycling_data, x = 2, CP = 300)
+Wbal_plots(cycling_data, x = 2, n = c(1, 2, 3), CP = 300)
 # Show just W' balance.
 Wbal_plots(cycling_data, x = 2, n = 1)
+# Elevation profile on top
+Wbal_plots(cycling_data, x = 2, n = c(3, 1))
 # Zoom all plots to 20-40 km.
-Wbal_plots(cycling_data, x = 2, CP = 300, xlim = c(20, 40))
+Wbal_plots(cycling_data, x = 3, CP = 300, xlim = c(20, 40), xaxs = "i")
 }
 \seealso{
 \code{\link{Wbal}}.

@@ -2,7 +2,7 @@
 #'   \href{http://www.zuto.de/project/srmio/}{Rainer Clasen's srmio library} to
 #'   be installed and on the system path.
 #' @export
-read_srm <- function(file, format = TRUE) {
+read_srm <- function(file = file.choose(), format = TRUE) {
   if (system2("srmcmd", stdout = FALSE, stderr = FALSE) == 127)
     stop(paste(
       "srmio library not installed/on the system path.",

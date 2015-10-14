@@ -5,7 +5,7 @@
 \title{Maximal mean values.}
 \usage{
 mmv(data, column, pds, delta = NULL, verbose = TRUE, .uniform = FALSE,
-  .correct = FALSE)
+  .string = FALSE)
 }
 \arguments{
 \item{data}{a \strong{formatted} dataset produced by \code{read*()}.}
@@ -23,8 +23,8 @@ If NULL (default), the most appropriate value is estimated.}
 
 \item{.uniform}{are the rows of the data already uniform?}
 
-\item{.correct}{should corrected power values be generated? Mainly for
-  internal use.}
+\item{.string}{are column name arguments given as character strings? A
+  backdoor around non-standard evaluation. Mainly for internal use.}
 }
 \value{
 a matrix object with two rows: 1) best mean value(s) and 2) the time

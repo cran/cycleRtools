@@ -7,20 +7,21 @@
 #'   relate.
 #' @param zbounds numeric; zone boundaries.
 #' @param pct should percentage values be returned?
+#' @param .string are column name arguments given as character strings? A
+#'   backdoor around non-standard evaluation. Mainly for internal use.
 #'
 #' @return a data frame of zone times.
 #'
 #' @export
-zone_time <- function(data, column = "power.W", zbounds, pct = FALSE)
+zone_time <- function(data, column = "power.W", zbounds, pct = FALSE, .string = FALSE)
   UseMethod("zone_time", data)
 #' @export
-zone_time.default <- function(data, column = "power.W", zbounds, pct = FALSE)
+zone_time.default <- function(data, column = "power.W", zbounds, pct = FALSE, .string = FALSE)
   format_error()
 #' @export
-zone_time.cycleRdata <- function(data, column = "power.W", zbounds, pct = FALSE) {
-  caller <- deparse(sys.call(-2))
-  # If the caller isn't dist_plot...
-  if (!any(grepl("dist_plot", caller)))
+zone_time.cycleRdata <- function(data, column = "power.W", zbounds, pct = FALSE,
+                                 .string = FALSE) {
+  if (!.string)
     column <- as.character(substitute(column))
   data   <- data[data$delta.t <= 20, ]           # Remove sig. stops.
   data$z <- zone_index(data[, column], zbounds)  # Rcpp.
@@ -32,6 +33,9 @@ zone_time.cycleRdata <- function(data, column = "power.W", zbounds, pct = FALSE)
     out <- {out / sum(out, na.rm = TRUE)} * 100
     out <- round(out)
   }
-  names(out) <- paste("Zone", 1:(length(zbounds) + 1))
+  if (length(out) == 1)
+    names(out) <- "Zone 1"
+  else
+    names(out) <- paste("Zone", 1:(length(zbounds) + 1))
   return(out)
 }
