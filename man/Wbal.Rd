@@ -23,13 +23,7 @@ A numeric vector of W' balance values, in \strong{kilojoules}.
 }
 \description{
 Generate a vector of W' balance values from time and power data. The
-underlying algorithm is published in Skiba \emph{et al.} (2012), and can also
-be examined in the function source code.
-}
-\examples{
-data(cycling_data)
-cycling_data$Wexp.kJ <-
-  Wbal(cycling_data, timer.s, power.smooth.W, CP = 300)
+underlying algorithm is published in Skiba \emph{et al.} (2012).
 }
 \references{
 Skiba, P. F., W. Chidnok, A. Vanhatalo, and A. M. Jones. Modeling

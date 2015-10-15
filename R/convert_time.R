@@ -1,26 +1,38 @@
 #' Reformat time.
 #'
-#' Convert time from "HH:MM:SS" format to seconds.
+#' Functions perform interconversion between "HH:MM:SS" format and seconds.
 #'
-#' @param x character string; a time in (HH:)MM:SS format. HH is optional.
+#' @param x either a character string of the form "HH:MM:SS" ("HH" is optional)
+#'   or a seconds value; can accept vectors.
 #'
-#' @return a numeric time value in seconds.
+#' @return seconds value(s) for \emph{from}, and "HH:MM:SS" character string(s)
+#'   for \emph{to}.
 #'
-#' @examples
-#' convert_time("3:21:05")       # Simple example.
-#' convert_time("03:30:10.5")    # With decimal seconds.
-#' convert_time("19:30.1")       # Without hours.
-#' convert_time("19:30.1") / 60  # In minutes.
-#'
+#' @name convert_time
+NULL
+
+#' @rdname convert_time
 #' @export
-convert_time <- function(x) {
-  err <- "Argument should be a character string of the format 'HH:MM:SS'."
-  if (!is.character(x)) stop(err, call. = FALSE)
-  x <- suppressWarnings(as.numeric(unlist(strsplit(x, ":"))))
-  if (any(is.na(x))) stop(err, call. = FALSE)
-  x <- rev(x)
-  x[-1] <- x[-1] * 60
-  if (length(x) == 3) x[3] <- x[3] * 60
-  out <- sum(x)
+convert_from_time <- function(x) {
+  x   <- suppressWarnings(strsplit(x, ":"))
+  x   <- lapply(x, rev)
+  x   <- lapply(x, as.numeric)
+  x   <- lapply(x, function(i) i * c(1, 60, 60 ^ 2)[1:length(i)])
+  out <- unlist(lapply(x, sum))
+  return(out)
+}
+#' @rdname convert_time
+#' @export
+convert_to_time <- function(x) {
+  h <- rep(0, length.out = length(x))
+  m <- floor(x / 60)
+  s <- round(x %% 60)
+
+  h[m > 60] <- floor(m[m > 60] / 60)
+  m[m > 60] <- m[m > 60] - (60 * h[m > 60])
+
+  out <- sprintf("%02d:%02d:%02d", h, m, s)
+  out <- gsub("^00:", "", out)
+  out <- gsub("^0", "", out)
   return(out)
 }

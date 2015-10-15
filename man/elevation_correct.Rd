@@ -24,8 +24,10 @@ downloaded. Note that NAs in the data will return corresponding NAs in the
 corrected elevation.
 }
 \examples{
+\dontrun{
 data(cycling_data)
 cycling_data$elevation.m <- elevation_correct(cycling_data, "GBR")
+}
 }
 \seealso{
 \code{\link{download_elev_data}}.

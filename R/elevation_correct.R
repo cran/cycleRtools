@@ -13,9 +13,10 @@
 #' @return a vector of elevation values. If there is an error at any stage, a
 #'   vector of NAs is returned.
 #'
-#' @examples
+#' @examples \dontrun{
 #' data(cycling_data)
 #' cycling_data$elevation.m <- elevation_correct(cycling_data, "GBR")
+#' }
 #'
 #' @seealso \code{\link{download_elev_data}}.
 #'

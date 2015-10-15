@@ -1,8 +1,7 @@
 #' W' balance.
 #'
 #' Generate a vector of W' balance values from time and power data. The
-#' underlying algorithm is published in Skiba \emph{et al.} (2012), and can also
-#' be examined in the function source code.
+#' underlying algorithm is published in Skiba \emph{et al.} (2012).
 #'
 #' @param data a data.frame/matrix object with time and power columns.
 #' @param time character; name of the time (seconds) column in \code{data}.
@@ -12,11 +11,6 @@
 #'   backdoor around non-standard evaluation. Mainly for internal use.
 #'
 #' @return A numeric vector of W' balance values, in \strong{kilojoules}.
-#'
-#' @examples
-#' data(cycling_data)
-#' cycling_data$Wexp.kJ <-
-#'   Wbal(cycling_data, timer.s, power.smooth.W, CP = 300)
 #'
 #' @seealso \code{\link{Wbal_plots}}.
 #'

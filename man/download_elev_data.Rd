@@ -19,13 +19,6 @@ Downloads elevation data files to the working directory for use with
 \code{\link{elevation_correct}}. Requires package \code{raster} to be
 installed.
 }
-\examples{
-# Download elevation data for the UK into the home directory.
-\dontrun{
-setwd("~")
-download_elev_data("GBR")
-}
-}
 \seealso{
 \code{\link{elevation_correct}}.
 }

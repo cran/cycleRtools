@@ -1,3 +1,7 @@
+Changes in 1.0.3
+	* Can now convert from seconds to "HH:MM:SS".
+	* In addition to the above, time conversion functions are now also vectorised.
+
 Changes in 1.0.2
 	* New function for interval detection added: interval_detect(). An example
 	  data set (`interval_data`) also added to compliment this change.

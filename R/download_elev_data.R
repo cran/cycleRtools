@@ -10,13 +10,6 @@
 #'
 #' @return nothing.
 #'
-#' @examples
-#' # Download elevation data for the UK into the home directory.
-#' \dontrun{
-#' setwd("~")
-#' download_elev_data("GBR")
-#' }
-#'
 #' @seealso \code{\link{elevation_correct}}.
 #'
 #' @export
