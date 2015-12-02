@@ -48,7 +48,7 @@ When read with the `format = TRUE` argument, this generates an object of class `
 colnames(cycling_data)
 ```
 
-All of which should be self-explanatory, perhaps with the exception of `VAM`, which is the rate of vertical ascent. Also note, `power.smooth.W` is a 25-second, exponentially weighted moving average of power values; and `.elevation.corrected.m` is not typical, but rather added for the purpose of example (see `cycling_data`). If any of these columns are not present in the original data file (e.g. latitude/longitude data in an .srm file), the columns are still present in the final formatted object, but are filled with NAs. To avoid any errors, do not rename existing columns; but new columns may be **appended** without complication.
+All of which should be self-explanatory, perhaps with the exception of `VAM`, which is the rate of vertical ascent. Also note, `power.smooth.W` is a 25-second, exponentially weighted moving average of power values; and `.elevation.corrected.m` is not typical, but rather added for the purpose of example. If any of these columns are not present in the original data file (e.g. latitude/longitude data in an .srm file), the columns are still present in the final formatted object, but are filled with NAs. To avoid any errors, do not rename existing columns; but new columns may be **appended** without complication.
 
 Of course, certain columns are discarded from the original data as they are not deemed useful in this package - for example, heart rate data. If you want to view all original data, then set `format = FALSE`. This will, however, preclude the use of most functions in this package.
 
@@ -56,12 +56,12 @@ Of course, certain columns are discarded from the original data as they are not 
 
 Perhaps the first thing you'll want to do on reading a data file into R is generate W' balance data. For those unfamiliar with the concept of W' *(read "W prime")*, refer to the reference in `?Wbal`. While this has already been done for `cycling_data`, to illustrate:
 
-```{r}
+```r
 cycling_data$Wexp.kJ <- Wbal(data = cycling_data, 
                              time = timer.s,  # Name of time column.
                              pwr  = power.W,  # Name of power column.
                              CP   = 330)      # Critical power value.
-summary(cycling_data$Wexp.kJ)
+# summary(cycling_data$Wexp.kJ)
 ```
 
 These data and others can then be plotted:
@@ -116,20 +116,20 @@ For the sake of example, let's say we want to know the best 1, 5 and 20 minute p
 
 ```{r}
 tsec <- c(1, 5, 20) * 60  # Time windows must be in units of seconds.
-mmv(data = cycling_data, 
-    pds  = tsec, 
-    column = power.W, 
+mmv(data    = cycling_data, 
+    windows = tsec, 
+    column  = power.W, 
     verbose = FALSE)
 
 ```
 
 The function `mmv` (maximal mean values) returns a matrix object with two rows: the first row shows the actual best values; the second row states where in the data (start time; seconds) those values were recorded. So the best 20 minute power was recorded from roughly ~ 2.5 minutes to 22.5 minutes.
 
-A simpler and slightly more efficient version of this function is provided as `mmv2()`. This can be used with any numeric vector (rather than just "cycleRdata" objects, as above), with `pds` given in *row* units. Hence, to achieve the above:
+A simpler and slightly more efficient version of this function is provided as `mmv2()`. This can be used with any numeric vector (rather than just "cycleRdata" objects, as above), with `windows` given in *row* units. Hence, to achieve the above:
 
 ```{r}
-mmv2(x   = uniform(cycling_data, verbose = FALSE)$power.W,  # Messy!
-     pds = tsec)
+mmv2(x       = uniform(cycling_data, verbose = FALSE)$power.W,  # Messy!
+     windows = tsec)
 ```
 
 ## Time in Zones

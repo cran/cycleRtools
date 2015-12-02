@@ -42,5 +42,8 @@ format_pwx <- function(data) {
   data_formatted$work.J <-
     cumsum(data_formatted$power.W * data_formatted$delta.t)
 
+  data_formatted$cadence.rpm <-
+    data$cad
+
   return(data_formatted)
 }

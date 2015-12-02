@@ -1,6 +1,6 @@
 Package: cycleRtools
 Title: Tools for Cycling Data Analysis
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: person("Jordan", "Mackie", email = "jmackie@protonmail.com", role = c("aut", "cre"))
 Description: A suite of functions for analysing cycling data.
 Depends: R (>= 3.2.1)
@@ -9,13 +9,14 @@ License: MIT + file LICENSE
 LazyData: true
 LinkingTo: Rcpp
 Imports: Rcpp, stats, graphics, grDevices, utils
-Suggests: XML, raster, pspline, minpack.lm, changepoint, knitr,
-        rmarkdown
+Suggests: xml2, raster, pspline, minpack.lm, changepoint, knitr,
+        rmarkdown, RCurl, parallel
 VignetteBuilder: knitr
 URL: https://github.com/jmackie4/cycleRtools
+RoxygenNote: 5.0.1
 NeedsCompilation: yes
-Packaged: 2015-10-15 10:50:18 UTC; jordan
+Packaged: 2015-12-01 17:01:02 UTC; jordan
 Author: Jordan Mackie [aut, cre]
 Maintainer: Jordan Mackie <jmackie@protonmail.com>
 Repository: CRAN
-Date/Publication: 2015-10-15 15:18:12
+Date/Publication: 2015-12-02 00:01:51

@@ -1,45 +1,34 @@
-#' @describeIn read Read a Training Peaks .pwx file. Requires the "XML"
-#'   package to be installed. \code{\link{read_pwx2}} is a faster alternative
-#'   that uses system commands.
+#' @describeIn read Read a Training Peaks .pwx file. Requires the "xml2" package
+#'   to be installed. Will make use of the "parallel" package if available.
 #' @export
-read_pwx <- function(file = file.choose(), format = TRUE, .list = FALSE) {
-  message("Reading .pwx file...")
-  file_xml  <- XML::xmlParse(file)
-  namespaces <- XML::xmlNamespaceDefinitions(file_xml, simplify = TRUE)
-  columns <- names(XML::xmlChildren(
-    XML::xmlRoot(file_xml)[["workout"]][["sample"]]
-  ))
-  pblen <- 50 / length(columns)  # Progress bar length.
-  data <- lapply(columns, FUN = function(x) {
-    message(rep("=", times = pblen), appendLF = FALSE)
-    XML::xpathSApply(
-      file_xml, path = paste0("//ns:", x),
-      namespaces = c(ns = namespaces[[1]]), simplify = TRUE,
-      fun = XML::xmlValue) -> out
-    return(as.numeric(out))
-  })
-  message("\nDone.")
-  names(data) <- columns
-  # Timestamp values------------------------------------------------------------
-  timestamp <- XML::xmlValue(XML::xmlRoot(file_xml)[["workout"]][["time"]])
-  timestamp <- sub("T", " ", timestamp)
-  timestamp <- strptime(timestamp, "%Y-%m-%d %H:%M:%S")
-  data$timestamp <- timestamp + data$timeoffset
-  #-----------------------------------------------------------------------------
-  if (.list)
-    return(data)
-  # Are all objects the same length?
-  len <- sapply(data, length)
-  if (length(unique(len)) > 1) {
-    warning(paste0(
-      "Columns are not of equal length, trimming to the smallest column.\n",
-      "use .list = TRUE to return a list object with lengths preserved."
-    ))
-    data <- sapply(data, function(x) x[1:min(len)])
+read_pwx <- function(file = file.choose(), format = TRUE) {
+  x    <- xml2::read_xml(file)
+  ns   <- xml2::xml_ns(x)
+  cols <- suppressWarnings(
+    xml2::xml_name(xml2::xml_children(xml2::xml_find_one(x, "//d1:sample", ns = ns)))
+  )
+
+  message("Reading .pwx file...") # --------------------------------------------
+  if (requireNamespace("parallel", quietly = TRUE)) {
+    data <- parallel::mclapply(cols, function(c) {
+      as.numeric(xml2::xml_text(xml2::xml_find_all(x, paste0("//d1:", c), ns)))
+    })
+  } else {
+    data <- lapply(cols, function(c) {
+      as.numeric(xml2::xml_text(xml2::xml_find_all(x, paste0("//d1:", c), ns)))
+    })
   }
+  names(data) <- cols
+
+  # Timestamp ------------------------------------------------------------------
+  ts <- xml2::xml_text(xml2::xml_find_one(x, "//d1:time", ns = ns))
+  ts <- sub("T", " ", ts)
+  ts <- strptime(ts, "%Y-%m-%d %H:%M:%S")
+  data$timestamp <- ts + data$timeoffset
+
   data <- as.data.frame(data)
   if (format) {
-    data <- format_pwx(data)
+    data        <- format_pwx(data)
     class(data) <- c("cycleRdata", "data.frame")
   }
   return(data)

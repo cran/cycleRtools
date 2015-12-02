@@ -6,7 +6,7 @@ std::vector<double> Wbal_(NumericVector t, NumericVector P, double CP)
   double n = P.size();
   // Create a vector of supra- and sub-CP sections.
   std::vector<double> section(n);
-  for (double i = 0; i < n; ++i) // NB: Starts at the first element.
+  for (double i = 0; i < n; ++i)
     section[i] = (P[i] <= CP) ? 1 : 2;
   // Generate vectors required for W' expenditure calculation.
   std::vector<double> dt(n), dWexp(n), tu(n), DCP(n), tau(n), rec(n);

@@ -8,23 +8,27 @@ Pt_nls <- function(LM = FALSE, P, tsec) {
         P ~ {(W / tsec) + CP},
         start = list(W  = 20000, CP = 300),
         upper =    c(W  = 60000, CP = 600),
-        lower =    c(W  = 0,     CP = 0)
+        lower =    c(W  = 0,     CP = 0),
+        control = list(maxiter = 1000)
       ),
       exp = minpack.lm::nlsLM(
         P ~ {a * exp(1) ^ (k * tsec) + CP},
         start = list(a = diff(range(P)), k = -0.005, CP = min(P)),
         upper = c(a = 1000, k =  0, CP = 1000),
-        lower = c(a = 0,    k = -1, CP = 0)
+        lower = c(a = 0,    k = -1, CP = 0),
+        control = list(maxiter = 1000)
       ),
       pwr = minpack.lm::nlsLM(
         P ~ {k * (tsec ^ n) + A},
-        start = list(k = 1500, n = -0.5, A = 0)
+        start = list(k = 1500, n = -0.5, A = 0),
+        control = list(maxiter = 1000)
       ),
       thrp = minpack.lm::nlsLM(
         P ~ {(W / (tsec - k)) + CP},
         start = list(W  = 20000, CP = 300, k = -20),
         upper =    c(W  = Inf,   CP = 600, k = 0),
-        lower =    c(W  = 0,     CP = 0,   k = -1000)
+        lower =    c(W  = 0,     CP = 0,   k = -1000),
+        control = list(maxiter = 1000)
       )
     )
   else

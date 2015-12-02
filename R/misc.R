@@ -6,7 +6,6 @@ delta_estimate <- function(x) {
   if (delta < 1 & delta != 0.5) {
     delta <- match(delta, round(delta, digits = 1:20))
     delta <- 1 / (10 ^ delta)
-    # Note this can cause problems when using rollmean_smth().
   }
   return(delta)
 }
@@ -55,22 +54,23 @@ format_error <- function()
 ride_data_skeleton <- function(len) {
   vals <- rep(NA, times = len)
   x <- data.frame(
-    timer.s = vals,
-    timer.min = vals,
-    timestamp = vals,
-    delta.t = vals,
-    lat = vals,
-    lng = vals,
-    distance.km = vals,
-    speed.kmh = vals,
-    elevation.m = vals,
-    delta.elev = vals,
-    VAM = vals,
-    power.W = vals,
+    timer.s        = vals,
+    timer.min      = vals,
+    timestamp      = vals,
+    delta.t        = vals,
+    lat            = vals,
+    lng            = vals,
+    distance.km    = vals,
+    speed.kmh      = vals,
+    elevation.m    = vals,
+    delta.elev     = vals,
+    VAM            = vals,
+    power.W        = vals,
     power.smooth.W = vals,
-    work.J = vals,
-    Wexp.kJ = vals,
-    lap = rep(1, times = len)
+    work.J         = vals,
+    Wexp.kJ        = vals,
+    cadence.rpm    = vals,
+    lap            = rep(1, times = len)
   )
   return(x)
 }

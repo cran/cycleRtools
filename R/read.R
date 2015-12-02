@@ -24,11 +24,8 @@
 #'
 #' @param file character; path to the file.
 #' @param format logical; should data be formatted?
-#' @param .list should data be returned as a list? Useful when data columns are
-#'   of unequal length, as can sometimes be the case with \code{read_pwx} and
-#'   \code{read_tcx}.
 #'
-#' @return A data frame or list, according to the \code{.list} argument.
+#' @return a data frame object.
 #'
 #' @describeIn read A wrapper for read_* functions that chooses the appropriate
 #'   function based on file extension.
@@ -41,25 +38,15 @@
 #' @import graphics
 #' @import grDevices
 #' @import utils
-read <- function(file = file.choose(), format = TRUE, .list = FALSE) {
+read <- function(file = file.choose(), format = TRUE) {
   if (grepl("\\.fit$", file))
     data <- read_fit(file, format)
   else if (grepl("\\.srm$", file))
     data <- read_srm(file, format)
   else if (grepl("\\.pwx$", file))
-  {
-    if (system2("xml2 test", stdout = FALSE, stderr = FALSE) != 127)
-      data <- read_pwx2(file, format, .list)
-    else
-      data <- read_pwx(file, format, .list)
-  }
+    data <- read_pwx(file, format)
   else if (grepl("\\.tcx$", file))
-  {
-    if (system2("xml2 test", stdout = FALSE, stderr = FALSE) != 127)
-      data <- read_tcx2(file, format, .list)
-    else
-      data <- read_tcx(file, format, .list)
-  }
+    data <- read_tcx(file, format)
   else
   {
     message("Unrecognised file extension, returning NULL.")

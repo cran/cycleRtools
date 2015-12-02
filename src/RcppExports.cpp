@@ -17,39 +17,39 @@ BEGIN_RCPP
 END_RCPP
 }
 // mmv2
-std::vector<double> mmv2(NumericVector x, NumericVector pds);
-RcppExport SEXP cycleRtools_mmv2(SEXP xSEXP, SEXP pdsSEXP) {
+std::vector<double> mmv2(NumericVector x, NumericVector windows);
+RcppExport SEXP cycleRtools_mmv2(SEXP xSEXP, SEXP windowsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type pds(pdsSEXP);
-    __result = Rcpp::wrap(mmv2(x, pds));
+    Rcpp::traits::input_parameter< NumericVector >::type windows(windowsSEXP);
+    __result = Rcpp::wrap(mmv2(x, windows));
     return __result;
 END_RCPP
 }
 // rollmean_
-std::vector<double> rollmean_(NumericVector x, unsigned int pd);
-RcppExport SEXP cycleRtools_rollmean_(SEXP xSEXP, SEXP pdSEXP) {
+std::vector<double> rollmean_(NumericVector x, unsigned int window);
+RcppExport SEXP cycleRtools_rollmean_(SEXP xSEXP, SEXP windowSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< unsigned int >::type pd(pdSEXP);
-    __result = Rcpp::wrap(rollmean_(x, pd));
+    Rcpp::traits::input_parameter< unsigned int >::type window(windowSEXP);
+    __result = Rcpp::wrap(rollmean_(x, window));
     return __result;
 END_RCPP
 }
 // rollmean_ema_
-std::vector<double> rollmean_ema_(NumericVector x, unsigned int pd, NumericVector wt);
-RcppExport SEXP cycleRtools_rollmean_ema_(SEXP xSEXP, SEXP pdSEXP, SEXP wtSEXP) {
+std::vector<double> rollmean_ema_(NumericVector x, unsigned int window, NumericVector wt);
+RcppExport SEXP cycleRtools_rollmean_ema_(SEXP xSEXP, SEXP windowSEXP, SEXP wtSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< unsigned int >::type pd(pdSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type window(windowSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type wt(wtSEXP);
-    __result = Rcpp::wrap(rollmean_ema_(x, pd, wt));
+    __result = Rcpp::wrap(rollmean_ema_(x, window, wt));
     return __result;
 END_RCPP
 }

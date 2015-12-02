@@ -32,28 +32,27 @@ diff_section <- function(x) {
 
 #' Efficient maximal mean values.
 #'
-#' A more efficient implementation of \code{\link{mmv}}. Simply takes
-#' a vector (\code{x}) of values and rolls over them element wise by windows
-#' defined in \code{pds}. Returns a vector of maximum mean values for each
-#' window size.
+#' A more efficient implementation of \code{\link{mmv}}. Simply takes a vector
+#' (\code{x}) of values and rolls over them element wise by defined windows.
+#' Returns a vector of maximum mean values for each window size.
 #'
 #' @param x a numeric vector of values.
-#' @param pds window size(s) (in element units) for which to
+#' @param windows window size(s) (in element units) for which to
 #'   generate maximum mean values.
 #'
-#' @return a vector of \code{length(pds)}.
+#' @return a vector of \code{length(windows)}.
 #'
 #' @export
-mmv2 <- function(x, pds) {
-    .Call('cycleRtools_mmv2', PACKAGE = 'cycleRtools', x, pds)
+mmv2 <- function(x, windows) {
+    .Call('cycleRtools_mmv2', PACKAGE = 'cycleRtools', x, windows)
 }
 
-rollmean_ <- function(x, pd) {
-    .Call('cycleRtools_rollmean_', PACKAGE = 'cycleRtools', x, pd)
+rollmean_ <- function(x, window) {
+    .Call('cycleRtools_rollmean_', PACKAGE = 'cycleRtools', x, window)
 }
 
-rollmean_ema_ <- function(x, pd, wt) {
-    .Call('cycleRtools_rollmean_ema_', PACKAGE = 'cycleRtools', x, pd, wt)
+rollmean_ema_ <- function(x, window, wt) {
+    .Call('cycleRtools_rollmean_ema_', PACKAGE = 'cycleRtools', x, window, wt)
 }
 
 Wbal_ <- function(t, P, CP) {

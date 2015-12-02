@@ -20,6 +20,7 @@ ride_time <- function(x, delta = NULL) {
   if (!is.null(delta))
     if (is.na(as.numeric(delta)))
       delta <- NULL
+
     if (is.null(delta))
       delta <- delta_estimate(x)
     #---------------------------------------------------------------------------

@@ -5,13 +5,6 @@ data("cycling_data")
 ## ------------------------------------------------------------------------
 colnames(cycling_data)
 
-## ------------------------------------------------------------------------
-cycling_data$Wexp.kJ <- Wbal(data = cycling_data, 
-                             time = timer.s,  # Name of time column.
-                             pwr  = power.W,  # Name of power column.
-                             CP   = 330)      # Critical power value.
-summary(cycling_data$Wexp.kJ)
-
 ## ---- fig.height=5, fig.width=7------------------------------------------
 Wbal_plots(data = cycling_data,
            x    = 2,     # Plot against distance.
@@ -36,15 +29,15 @@ with(cycling_data, plot(x = distance.km,
 
 ## ------------------------------------------------------------------------
 tsec <- c(1, 5, 20) * 60  # Time windows must be in units of seconds.
-mmv(data = cycling_data, 
-    pds  = tsec, 
-    column = power.W, 
+mmv(data    = cycling_data, 
+    windows = tsec, 
+    column  = power.W, 
     verbose = FALSE)
 
 
 ## ------------------------------------------------------------------------
-mmv2(x   = uniform(cycling_data, verbose = FALSE)$power.W,  # Messy!
-     pds = tsec)
+mmv2(x       = uniform(cycling_data, verbose = FALSE)$power.W,  # Messy!
+     windows = tsec)
 
 ## ---- fig.width=7--------------------------------------------------------
 zone_time(data    = cycling_data, 

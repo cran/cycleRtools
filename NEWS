@@ -1,3 +1,17 @@
+Changes in 1.0.4
+	* Golden Cheetah (> v3.3) integration.
+	* For rolling operations, arguments referring to window size are now more clearly
+	  named ("window", or some variant thereof), as opposed to "pd". Improves readability.
+	* "cycleRdata" objects now include cadence.
+	* "XML" has been replaced with "xml2", due to better performance of the latter. The
+	  relevant functions (read_pwx & read_tcx) will also make use of the "parallel" package
+	  if available.
+	* Crude command line functions (read_pwx2 & read_tcx2) have been removed as they lacked
+	  portability.
+	* XML data parsing can now handle missing "fields", hence the ".list" argument is no longer
+	  needed.
+	* More detail added to W' balance (?Wbal) documentation.
+
 Changes in 1.0.3
 	* Can now convert from seconds to "HH:MM:SS".
 	* In addition to the above, time conversion functions are now also vectorised.

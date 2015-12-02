@@ -21,7 +21,9 @@
 #' \item{power.smooth.W}{an exponentially-weighted 25-second moving average of power.W values.}
 #' \item{work.J}{cumulative work (joules).}
 #' \item{Wexp.kJ}{W' expended in units of kilojoules. See ?Wbal and references therein.}
+#' \item{cadence.rpm}{pedalling cadence in units of revolutions per minute (rpm).}
 #' \item{lap}{a numeric vector of lap "levels". Will only have values > 1 if lap data is available.}
+#' \item{.elevation.corrected.m}{added for the sake of example; see package vignette.}
 #' }
 "cycling_data"
 
@@ -52,11 +54,6 @@
 #' \item{lap}{a numeric vector of lap "levels". Will only have values > 1 if lap data is available.}
 #' }
 "interval_data"
-
-
-
-
-
 
 #' An example Power-time profile
 #'

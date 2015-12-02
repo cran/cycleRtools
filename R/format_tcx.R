@@ -48,5 +48,10 @@ format_tcx <- function(data) {
       cumsum(data_formatted$power.W * data_formatted$delta.t)
   }
 
+  if (!is.null(data$Cadence)) {
+    data_formatted$cadence.rpm <-
+      data$Cadence
+  }
+
   return(data_formatted)
 }
