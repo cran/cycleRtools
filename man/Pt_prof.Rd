@@ -3,14 +3,15 @@
 \docType{data}
 \name{Pt_prof}
 \alias{Pt_prof}
-\title{An example Power-time profile}
-\format{An object of class \code{array} of length 358.}
+\title{Power-time profile.}
+\format{a \code{data.frame} with two columns: time (seconds) and power
+  (Watts), respectively.}
 \usage{
 Pt_prof
 }
 \description{
-A named numeric vector of best power values, where names are the
-corresponding time periods (seconds).
+An example power profile; i.e. best mean powers for periods of 30 seconds
+through to 1 hour, in increments of 10 seconds.
 }
 \keyword{datasets}
 

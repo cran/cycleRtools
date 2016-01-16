@@ -5,36 +5,56 @@
 #'
 #' Generates a vector of "section" values/levels according to differences in
 #' the supplied vector. The function simply rolls over \code{x}, incrementing
-#' the return vector every time there is a significant break in the pattern of
-#' differences between adjacent elements of \code{x}. In practical terms, if
-#' \code{x} is a series of timestamp values (see example), every time there is
-#' a significant break in the timer (> 10 sec currently), the return vector is
-#' incremented by 1.
+#' the return vector every time there is a significant break (\code{stop}
+#' argument) in the pattern of differences between adjacent elements of
+#' \code{x}. In practical terms, if \code{x} is a series of timestamp values
+#' (see example), every time there is a significant break in the timer (e.g.
+#' >10 sec), the return vector is incremented by 1.
 #'
 #' @param x a numeric vector (e.g. a timer column) that increments uniformly.
 #'   When there is a \strong{significant} break in this uniformity, a new
 #'   section is created, and so forth.
+#' @param br criterion for a significant break in terms of \code{x}.
 #'
-#' @return a vector of the same shape as x.
+#' @return a vector of the same length as \code{x}.
 #'
 #' @examples
 #' t_sec <- c(1:10, 40:60, 100:150)       # Discontinuous timer values.
 #' pwr   <- runif(length(t_sec), 0, 400)  # Some power values.
 #' x     <- data.frame(t_sec, pwr)
-#' # Generate section levels.
-#' x$section <- diff_section(x$t_sec)
+#'
+#' ## Generate section levels.
+#' x$section <- diff_section(x$t_sec, br = 10) # 10 second breaks.
 #' print(x)
+#' split(x, x$section)
+#'
+#' ## Using "intervaldata", which has a large stop.
+#' data(intervaldata)
+#' intervaldata$section <- diff_section(intervaldata$timer.s, br = 20)
+#' sp <- split(intervaldata, intervaldata$section)
+#'
+#' ## Plot.
+#' eplot <- function(x) cycleRtools:::elev_plot(x, "timer.min")
+#' layout(matrix(c(1, 2, 1, 3), 2, 2))
+#' eplot(cycleRtools:::expand_stops(intervaldata))
+#' eplot(sp[[1]])
+#' eplot(sp[[2]])
 #'
 #' @export
-diff_section <- function(x) {
-    .Call('cycleRtools_diff_section', PACKAGE = 'cycleRtools', x)
+diff_section <- function(x, br) {
+    .Call('cycleRtools_diff_section', PACKAGE = 'cycleRtools', x, br)
+}
+
+Diff <- function(x) {
+    .Call('cycleRtools_Diff', PACKAGE = 'cycleRtools', x)
 }
 
 #' Efficient maximal mean values.
 #'
 #' A more efficient implementation of \code{\link{mmv}}. Simply takes a vector
-#' (\code{x}) of values and rolls over them element wise by defined windows.
-#' Returns a vector of maximum mean values for each window size.
+#' (\code{x}) of values and rolls over them element wise by \code{windows}.
+#' Returns a vector of maximum mean values for each window. \code{NA}s are not
+#' ignored.
 #'
 #' @param x a numeric vector of values.
 #' @param windows window size(s) (in element units) for which to
@@ -42,19 +62,48 @@ diff_section <- function(x) {
 #'
 #' @return a vector of \code{length(windows)}.
 #'
+#' @examples
+#' x <- rnorm(100, 500, 200)
+#' mmv2(x, windows = c(5, 10, 20))
+#'
 #' @export
 mmv2 <- function(x, windows) {
     .Call('cycleRtools_mmv2', PACKAGE = 'cycleRtools', x, windows)
 }
 
-rollmean_ <- function(x, window) {
-    .Call('cycleRtools_rollmean_', PACKAGE = 'cycleRtools', x, window)
+na_split <- function(x) {
+    .Call('cycleRtools_na_split', PACKAGE = 'cycleRtools', x)
 }
 
-rollmean_ema_ <- function(x, window, wt) {
-    .Call('cycleRtools_rollmean_ema_', PACKAGE = 'cycleRtools', x, window, wt)
+ema_weights <- function(len) {
+    .Call('cycleRtools_ema_weights', PACKAGE = 'cycleRtools', len)
 }
 
+mean_weights <- function(len) {
+    .Call('cycleRtools_mean_weights', PACKAGE = 'cycleRtools', len)
+}
+
+#' @rdname rollmean_smth
+#' @export
+rollmean_ <- function(x, window, ema, narm) {
+    .Call('cycleRtools_rollmean_', PACKAGE = 'cycleRtools', x, window, ema, narm)
+}
+
+#' Rolling mean for nonuniform data.
+#'
+#' Produce a rolling average for data sampled at non-uniform time intervals.
+#'
+#' @param x numeric vector of values to be rolled.
+#' @param t numeric vector of time values corresponding to elements in \code{x}.
+#' @param window size of the window in terms of \code{t}. E.g. \code{30} (seconds).
+#'
+#' @export
+rollmean_nunif <- function(x, t, window) {
+    .Call('cycleRtools_rollmean_nunif', PACKAGE = 'cycleRtools', x, t, window)
+}
+
+#' @rdname Wbal
+#' @export
 Wbal_ <- function(t, P, CP) {
     .Call('cycleRtools_Wbal_', PACKAGE = 'cycleRtools', t, P, CP)
 }

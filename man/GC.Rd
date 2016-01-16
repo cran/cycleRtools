@@ -25,7 +25,7 @@ httpserver.ini file.}
 
 \item{format}{format activity data to an object of class "cycleRdata".
 Ensures compatibility with other functions in this package -- see
-\code{\link{read}}.}
+\code{\link{read_ride}}.}
 
 \item{date.rng}{a vector of length two that can be converted to an object of
 class \code{"Date"} via \code{\link{as.Date}}. Must be specified for
@@ -40,15 +40,15 @@ Requires the \code{RCurl} package to be installed.
 }
 \details{
 As of GoldenCheetah (GC) version 3.3, the application is ran with a
-background http server to ease integration with external analysis software
+background restful web service api to ease integration with external analysis software
 (such as R). When an instance of GoldenCheetah is running, or the application
 is initiated from the command line with the '--server' option, these
 functions can be used to interface with athlete data. Relevant documentation
 can be found
 \href{https://github.com/GoldenCheetah/GoldenCheetah/wiki/UG_Special-Topics_REST-API-documentation}{here}.
 
-\code{GC_activity} behaves similarly to \code{\link{read}} functions in this
-package, importing data from saved GC .json files.
+\code{GC_activity} behaves similarly to \code{\link{read_ride}} functions in
+this package, importing data from saved GC .json files.
 
 \code{GC_metrics} returns summary metrics for either: all available rides if
 \code{date.rng = NULL}; or rides within a specified date range if dates are

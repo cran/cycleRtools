@@ -6,13 +6,25 @@
 using namespace Rcpp;
 
 // diff_section
-std::vector<double> diff_section(NumericVector x);
-RcppExport SEXP cycleRtools_diff_section(SEXP xSEXP) {
+std::vector<double> diff_section(NumericVector x, int br);
+RcppExport SEXP cycleRtools_diff_section(SEXP xSEXP, SEXP brSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    __result = Rcpp::wrap(diff_section(x));
+    Rcpp::traits::input_parameter< int >::type br(brSEXP);
+    __result = Rcpp::wrap(diff_section(x, br));
+    return __result;
+END_RCPP
+}
+// Diff
+std::vector<double> Diff(NumericVector x);
+RcppExport SEXP cycleRtools_Diff(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    __result = Rcpp::wrap(Diff(x));
     return __result;
 END_RCPP
 }
@@ -28,28 +40,63 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// rollmean_
-std::vector<double> rollmean_(NumericVector x, unsigned int window);
-RcppExport SEXP cycleRtools_rollmean_(SEXP xSEXP, SEXP windowSEXP) {
+// na_split
+std::vector<double> na_split(NumericVector x);
+RcppExport SEXP cycleRtools_na_split(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< unsigned int >::type window(windowSEXP);
-    __result = Rcpp::wrap(rollmean_(x, window));
+    __result = Rcpp::wrap(na_split(x));
     return __result;
 END_RCPP
 }
-// rollmean_ema_
-std::vector<double> rollmean_ema_(NumericVector x, unsigned int window, NumericVector wt);
-RcppExport SEXP cycleRtools_rollmean_ema_(SEXP xSEXP, SEXP windowSEXP, SEXP wtSEXP) {
+// ema_weights
+std::vector<double> ema_weights(double len);
+RcppExport SEXP cycleRtools_ema_weights(SEXP lenSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< double >::type len(lenSEXP);
+    __result = Rcpp::wrap(ema_weights(len));
+    return __result;
+END_RCPP
+}
+// mean_weights
+std::vector<double> mean_weights(double len);
+RcppExport SEXP cycleRtools_mean_weights(SEXP lenSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< double >::type len(lenSEXP);
+    __result = Rcpp::wrap(mean_weights(len));
+    return __result;
+END_RCPP
+}
+// rollmean_
+std::vector<double> rollmean_(NumericVector x, double window, bool ema, bool narm);
+RcppExport SEXP cycleRtools_rollmean_(SEXP xSEXP, SEXP windowSEXP, SEXP emaSEXP, SEXP narmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< unsigned int >::type window(windowSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type wt(wtSEXP);
-    __result = Rcpp::wrap(rollmean_ema_(x, window, wt));
+    Rcpp::traits::input_parameter< double >::type window(windowSEXP);
+    Rcpp::traits::input_parameter< bool >::type ema(emaSEXP);
+    Rcpp::traits::input_parameter< bool >::type narm(narmSEXP);
+    __result = Rcpp::wrap(rollmean_(x, window, ema, narm));
+    return __result;
+END_RCPP
+}
+// rollmean_nunif
+std::vector<double> rollmean_nunif(NumericVector x, NumericVector t, double window);
+RcppExport SEXP cycleRtools_rollmean_nunif(SEXP xSEXP, SEXP tSEXP, SEXP windowSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
+    Rcpp::traits::input_parameter< double >::type window(windowSEXP);
+    __result = Rcpp::wrap(rollmean_nunif(x, t, window));
     return __result;
 END_RCPP
 }

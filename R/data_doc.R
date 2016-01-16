@@ -1,62 +1,32 @@
 #' Example cycling data.
 #'
-#' Formatted cycling data from a Garmin head-unit. imported via
-#' \code{cycleRtools::read_fit("file_path", format = TRUE)}.
+#' @description Formatted cycling data from a Garmin head-unit. Imported via
+#' \code{read_fit("file_path", format = TRUE, CP = 310, sRPE = 7)}.
 #'
-#' @format An object of class c("cycleRdata", "data.frame").
-#' \describe{
-#' \item{timer.s}{an ongoing timer (seconds). Stoppages are not recorded per se,
-#' but rather represented as breaks in the continuity of the timer.}
-#' \item{timer.min}{as above, but in units of minutes.}
-#' \item{timestamp}{"POSIXct" values, describing the actual time of day.}
-#' \item{delta.t}{delta time values (seconds). Obtained via base::diff(timer.s).}
-#' \item{lat}{latitude values (units: degrees).}
-#' \item{lng}{longitude values (units: degrees).}
-#' \item{distance.km}{cumulative distance (kilometres).}
-#' \item{speed.kmh}{speed in kilometres per hour.}
-#' \item{elevation.m}{altitude in metres.}
-#' \item{delta.elev}{delta elevation (metres). Obtained via base::diff(elevation.m).}
-#' \item{VAM}{"vertical ascent metres per second".}
-#' \item{power.W}{power readings (watts).}
-#' \item{power.smooth.W}{an exponentially-weighted 25-second moving average of power.W values.}
-#' \item{work.J}{cumulative work (joules).}
-#' \item{Wexp.kJ}{W' expended in units of kilojoules. See ?Wbal and references therein.}
-#' \item{cadence.rpm}{pedalling cadence in units of revolutions per minute (rpm).}
-#' \item{lap}{a numeric vector of lap "levels". Will only have values > 1 if lap data is available.}
-#' \item{.elevation.corrected.m}{added for the sake of example; see package vignette.}
-#' }
-"cycling_data"
+#' \code{"ridedata"} is a typical group ride. \code{"intervaldata"} is a session
+#' (of sorts) that included two efforts and a cafe stop. The latter is included
+#' to demonstrate the use of \code{\link{interval_detect}}.
+#'
+#' @format An object of class \code{c("cycleRdata", "data.frame")}, and
+#'   additional attributes of \code{CP = 300} & \code{sRPE = 7}. The latter are
+#'   used by several methods in this package. See \code{\link{cycleRdata}} for a
+#'   description of columns.
+#'
+#' @seealso \code{\link{cycleRdata}}.
+#'
+#' @name ride_examples
+NULL
 
-#' Example cycling interval data.
-#'
-#' Formatted cycling data from a Garmin head-unit. imported via
-#' \code{cycleRtools::read_fit("file_path", format = TRUE)}. Included to demonstrate
-#' the use of \code{interval_detect()}.
-#'
-#' @format An object of class c("cycleRdata", "data.frame").
-#' \describe{
-#' \item{timer.s}{an ongoing timer (seconds). Stoppages are not recorded per se,
-#' but rather represented as breaks in the continuity of the timer.}
-#' \item{timer.min}{as above, but in units of minutes.}
-#' \item{timestamp}{"POSIXct" values, describing the actual time of day.}
-#' \item{delta.t}{delta time values (seconds). Obtained via base::diff(timer.s).}
-#' \item{lat}{latitude values (units: degrees).}
-#' \item{lng}{longitude values (units: degrees).}
-#' \item{distance.km}{cumulative distance (kilometres).}
-#' \item{speed.kmh}{speed in kilometres per hour.}
-#' \item{elevation.m}{altitude in metres.}
-#' \item{delta.elev}{delta elevation (metres). Obtained via base::diff(elevation.m).}
-#' \item{VAM}{"vertical ascent metres per second".}
-#' \item{power.W}{power readings (watts).}
-#' \item{power.smooth.W}{an exponentially-weighted 25-second moving average of power.W values.}
-#' \item{work.J}{cumulative work (joules).}
-#' \item{Wexp.kJ}{W' expended in units of kilojoules. See ?Wbal and references therein.}
-#' \item{lap}{a numeric vector of lap "levels". Will only have values > 1 if lap data is available.}
-#' }
-"interval_data"
+#' @rdname ride_examples
+"ridedata"
+#' @rdname ride_examples
+"intervaldata"
 
-#' An example Power-time profile
+#' Power-time profile.
 #'
-#' A named numeric vector of best power values, where names are the
-#' corresponding time periods (seconds).
+#' An example power profile; i.e. best mean powers for periods of 30 seconds
+#' through to 1 hour, in increments of 10 seconds.
+#'
+#' @format a \code{data.frame} with two columns: time (seconds) and power
+#'   (Watts), respectively.
 "Pt_prof"

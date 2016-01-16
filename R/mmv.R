@@ -7,59 +7,67 @@
 #'   quoted.
 #' @param windows window size(s) for which to generate best averages, given in
 #'   seconds.
-#' @param delta the incremement with which to initially make the data uniform.
-#'   If NULL (default), the most appropriate value is estimated.
-#' @param verbose should messages be printed to the console?
-#' @param .uniform are the rows of the data already uniform?
-#' @param .string are column name arguments given as character strings? A
+#' @param deltat the sampling frequency of \code{data} in seconds per sample;
+#'   typically 0.5 or 1. If \code{NULL}, this is estimated.
+#' @param character.only are column name arguments given as character strings? A
 #'   backdoor around non-standard evaluation. Mainly for internal use.
 #'
-#' @return a matrix object with two rows: 1) best mean value(s) and 2) the time
-#'   at which that value was recorded
+#' @return a matrix object with two rows: 1) best mean values and 2) the time
+#'   at which those values were recorded
 #'
 #' @examples
-#' data(cycling_data)
-#' # Generate best powers for 5, 10 and 20 minutes.
-#' t_sec <- c(5, 10, 20) * 60
-#' x <- mmv(cycling_data, power.W, t_sec)
-#' # Show when those values were recorded in minutes
-#' x[2, ] / 60
+#' data(ridedata)
+#'
+#' ## Best power for 5 and 20 minutes.
+#' tsec <- c(5, 20) * 60
+#' mmv(ridedata, power.W, tsec)
+#'
+#' ## Generate a simple critical power estimate.
+#' tsec <- 2:20 * 60
+#' pwrs <- mmv(ridedata, power.W, tsec)
+#' m <- lm(pwrs[1, ] ~ {1 / tsec})  # Simple inverse model.
+#' coef(m)[1]  # Intercept = critical power.
+#'
+#' ## More complex models...
+#' m <- Pt_model(pwrs[1, ], tsec)
+#' print(m)
+#' ## Extract the asymptote of the exponential model.
+#' coef(m)$exp["CP"]
 #'
 #' @seealso For a more generic and efficient version of this function, see
 #'   \code{\link{mmv2}}
 #'
 #' @export
-mmv            <- function(data, column, windows, delta = NULL, verbose = TRUE,
-                           .uniform = FALSE, .string = FALSE)
+mmv <- function(data, column, windows, deltat = NULL,
+                character.only = FALSE)
   UseMethod("mmv", data)
 #' @export
-mmv.default    <- function(data, column, windows, delta = NULL, verbose = TRUE,
-                           .uniform = FALSE, .string = FALSE)
+mmv.default <- function(data, column, windows, deltat = NULL,
+                        character.only = FALSE)
   format_error()
 #'@export
-mmv.cycleRdata <- function(data, column, windows, delta = NULL, verbose = TRUE,
-                           .uniform = FALSE, .string = FALSE) {
-  if (!.string)
+mmv.cycleRdata <- function(data, column, windows, deltat = NULL,
+                           character.only = FALSE) {
+
+  if (!character.only)
     column <- as.character(substitute(column))
 
-  data   <- data[c("timer.s", column)]
-  if (!.uniform)
-    data <- uniform(data, delta, verbose, .return_delta = TRUE)
-  # Replace NAs with 0s.
-  na.rm <- which(is.na(data[, column]))
-  data[na.rm, column] <- 0
+  data <- expand_stops(data, deltat, "timer.s")
 
-  mm_fn <- function(x) {
-    mvavg <- rollmean_(data[, column], (x / delta))
-    best  <- max(mvavg)
-    t     <- data[, 1][match(best, mvavg)]
-    t     <- t - x
-    return(c(best, t))
+  if (!is.null(attr(data, "new")))
+    data[attr(data, "new"), "power.W"] <- 0 # Fill stops with zeros.
+
+  mm_fn <- function(x, d, c) {
+    mvavg <- rollmean_(d[, c], window = (x / attr(d, "deltat")),
+                       ema = FALSE, narm = TRUE)
+    best  <- max(mvavg, na.rm = TRUE)
+    t     <- d[match(best, mvavg), "timer.s"]
+    t     <- t - x # Start of the window rather than the end.
+    c(best, t)
   }
 
-  max_vals <- sapply(windows, FUN = mm_fn)
-  max_vals <- round(max_vals, digits = 2)
-  rownames(max_vals) = c("Best mean value", "Recorded @")
+  max_vals <- vapply(windows, FUN = mm_fn, d = data, c = column, numeric(2))
+  rownames(max_vals) <- c("Best mean value", "Recorded @")
   colnames(max_vals) <- paste(windows)
-  return(max_vals)
+  max_vals
 }

@@ -17,7 +17,13 @@ a vector of \code{length(windows)}.
 }
 \description{
 A more efficient implementation of \code{\link{mmv}}. Simply takes a vector
-(\code{x}) of values and rolls over them element wise by defined windows.
-Returns a vector of maximum mean values for each window size.
+(\code{x}) of values and rolls over them element wise by \code{windows}.
+Returns a vector of maximum mean values for each window. \code{NA}s are not
+ignored.
+}
+\examples{
+x <- rnorm(100, 500, 200)
+mmv2(x, windows = c(5, 10, 20))
+
 }
 

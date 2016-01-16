@@ -12,7 +12,7 @@ convert_to_time(x)
 }
 \arguments{
 \item{x}{either a character string of the form "HH:MM:SS" ("HH" is optional)
-or a seconds value; can accept vectors.}
+or numeric \strong{seconds} values.}
 }
 \value{
 seconds value(s) for \emph{from}, and "HH:MM:SS" character string(s)
@@ -20,5 +20,13 @@ seconds value(s) for \emph{from}, and "HH:MM:SS" character string(s)
 }
 \description{
 Functions perform interconversion between "HH:MM:SS" format and seconds.
+}
+\examples{
+x <- c("00:21:05", "25:51", NA, "00:26:01.1", "01:05:02.0")
+x <- convert_from_time(x)
+print(x)
+x <- convert_to_time(x)
+print(x)
+
 }
 

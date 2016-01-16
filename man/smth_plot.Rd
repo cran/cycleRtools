@@ -5,7 +5,7 @@
 \title{Smoothed data plot.}
 \usage{
 smth_plot(data, x = "timer.s", yraw = "power.W", ysmth = "power.smooth.W",
-  colour = "lap", ..., .string = FALSE)
+  colour = "lap", ..., character.only = FALSE)
 }
 \arguments{
 \item{data}{the dataset to be used.}
@@ -17,24 +17,28 @@ smth_plot(data, x = "timer.s", yraw = "power.W", ysmth = "power.smooth.W",
 \item{ysmth}{column identifier for the smoothed data.}
 
 \item{colour}{level identifier in \code{data} by which to colour lines. Or a
-colour name. Or simply a nonexistent column name (equivalent to "black").}
+colour name.}
 
 \item{...}{further arguments to be passed to \code{plot()}.}
 
-\item{.string}{are column name arguments given as character strings? A
-backdoor around non-standard evaluation. Mainly for internal use.}
+\item{character.only}{are column name arguments given as character strings? A
+backdoor around non-standard evaluation.}
 }
 \description{
 Create a plot with both raw and smoothed data lines.
 }
 \examples{
-data(cycling_data)
-# Create some artificial laps.
-cycling_data$lap <- floor(seq(from = 1, to = 5, along.with = cycling_data[, 1]))
-# Plot:
-smth_plot(cycling_data, timer.s, power.W, power.smooth.W, colour = "lap")
-# Plot with a single blue line:
-smth_plot(cycling_data, colour = "blue")  # Default arguments.
+data(ridedata)
+
+## Plot with a single blue line (default arguments):
+smth_plot(ridedata, colour = "blue", main = "Single Colour",
+          xlab = "Time (seconds)", ylab = "Power (watts)")
+
+## Create some laps.
+ridedata$lap <- ceiling(seq(from = 1.1, to = 5, length.out = nrow(ridedata)))
+## Plot with lap colours.
+smth_plot(ridedata, timer.min, power.W, power.smooth.W, colour = "lap",
+          xlab = "Time (mins)", ylab = "Power (watts)", main = "Lap Colours")
 
 }
 

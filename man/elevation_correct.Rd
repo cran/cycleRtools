@@ -7,7 +7,7 @@
 elevation_correct(data, country)
 }
 \arguments{
-\item{data}{a dataset with longitude ("lng") and lattitude ("lat") columns.}
+\item{data}{a dataset with longitude ("lng") and lattitude ("lon") columns.}
 
 \item{country}{character string; the country to which the data pertain, given
 as an ISO3 code (see \code{raster::getData("ISO3")})}
@@ -25,8 +25,16 @@ corrected elevation.
 }
 \examples{
 \dontrun{
-data(cycling_data)
-cycling_data$elevation.m <- elevation_correct(cycling_data, "GBR")
+data(ridedata)
+
+## When run the first time, geographical data will need to be downloaded.
+ridedata$elevation.corrected <- elevation_correct(ridedata, "GBR")
+
+## A Bland-Altman-type plot.
+difference <- ridedata$elevation.m - ridedata$elevation.corrected
+plot(difference ~ ridedata$timer.min, cex = 0.2, ylab = "raw minus corrected")
+m <- mean(difference, na.rm = TRUE); stdev <- sd(difference, na.rm = TRUE)
+abline(h = c(m + c(-stdev, 0, stdev)), lty = c(1, 2, 1), col = "red")
 }
 
 }

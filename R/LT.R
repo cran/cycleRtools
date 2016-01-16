@@ -47,8 +47,7 @@ LT <- function(WR, La, sig_rise = 1.5, plots = TRUE) {
   }
   peaks <- function(series, span = 3) {
     z <- embed(series, span)
-    result <- max.col(z) == 1 + span %/% 2
-    return(result)
+    max.col(z) == 1 + span %/% 2
   }
   LT.est <- function(La2, WR2) {
     LT <- round(optim(
@@ -59,13 +58,13 @@ LT <- function(WR, La, sig_rise = 1.5, plots = TRUE) {
     LT2 <- round(optim(
       lWR[2], LT.bs.reg2, method = "BFGS", y = lLa, x = lWR
     )$par, 2)
-    return(c(LT, exp(LT2)))
+    c(LT, exp(LT2))
   }
   LT.bs.reg2 <- function(break.pt, y, x) {
     lt.fit <-
       lm(y ~ lhs(x, break.pt) + rhs(x, break.pt), singular.ok = T)
     lt.mse <- (sum(lt.fit$residuals ^ 2)) / lt.fit$df.residual
-    return(lt.mse)
+    lt.mse
   }
   lhs <- function(x, break.pt) ifelse(x < break.pt, break.pt - x, 0)
   rhs <- function(x, break.pt) ifelse(x < break.pt, 0, x - break.pt)

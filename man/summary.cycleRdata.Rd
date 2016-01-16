@@ -4,34 +4,38 @@
 \alias{summary.cycleRdata}
 \title{Summary method for cycleRdata class.}
 \usage{
-\method{summary}{cycleRdata}(object, sRPE = NULL, CP = NULL,
-  round_digits = NULL, prettynames = FALSE, .smoothpwr = "power.smooth.W",
-  ...)
+\method{summary}{cycleRdata}(object, sRPE = attr(object, "sRPE"),
+  CP = attr(object, "CP"), .smoothpwr = "power.smooth.W", ...)
 }
 \arguments{
 \item{object}{object for which a summary is desired.}
 
-\item{sRPE}{optional; session Rating of Percieved Exertion (value between 1 and 10).}
+\item{sRPE}{optional; session Rating of Percieved Exertion (value between 1
+and 10; Foster 1998).}
 
 \item{CP}{optional; Critical Power value (Watts).}
 
-\item{round_digits}{optional; number of digits to round all metrics to.}
-
-\item{prettynames}{self explanatory.}
-
-\item{.smoothpwr}{character string; column name of smoothed power values. For internal use.}
+\item{.smoothpwr}{character string; column name of smoothed power values.
+Used for xP metric.}
 
 \item{...}{further arguments passed to or from other methods.}
 }
 \value{
-a list object.
+a list object of class \code{"cyclesummary"}, which has an associated
+  print method.
 }
 \description{
-Relevant summary metrics for cycling data (class `cycleRdata`).
+Relevant summary metrics for cycling data (method for class
+\code{"cycleRdata"}).
 }
 \examples{
-data(cycling_data)
-summary(cycling_data)
+data(intervaldata)
+summary(intervaldata)
 
+}
+\references{
+Foster C. Monitoring training in athletes with reference to
+overtraining syndrome. Medicine & Science in Sports & Exercise 30: 1164-1168,
+1998.
 }
 
