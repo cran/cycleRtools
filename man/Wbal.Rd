@@ -60,6 +60,7 @@ ignored and the correspoding W' expended value assumes that of the last
 available power value. \code{NA} values are not allowed in the time column.
 }
 \examples{
+\dontrun{
 data(ridedata)
 
 ## Basic usage.
@@ -85,6 +86,7 @@ print(d)
 
 ## Using underlying Rcpp function:
 Wbal_(t = 1:20, P = rnorm(20, 300, 50), CP = 300)  # Values are in joules.
+}
 
 }
 \references{

@@ -4,7 +4,7 @@ author: "Jordan Mackie"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Cycling Data Analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -169,16 +169,26 @@ curve(ms$Pfn$exp(x), add = TRUE, col = "red")
 ```
 
 
+## Mapping
+
+Viewing a route map is simple thanks to the `leaflet` package.
+
+```{r, fig.height=3}
+library(leaflet)
+leaflet(intervaldata) %>% addTiles() %>% addPolylines(~lon, ~lat)
+```
+
+
 # References
-
-Foster C, Florhaug JA, Franklin J, Gottschall L, Hrovatin LA, Parker S, Doleshal P, Dodge C. A New Approach to Monitoring Exercise Training. *Journal of Strength and Conditioning Research* 15: 109–115, 2001.
-
-
-Jones AM, Vanhatalo A, Burnley M, Morton RH, Poole DC. Critical Power: Implications for Determination of VO2max and Exercise Tolerance. *Medicine & Science in Sports & Exercise* 42: 1876–1890, 2010.
+<dl>
+<dd>Foster C, Florhaug JA, Franklin J, Gottschall L, Hrovatin LA, Parker S, Doleshal P, Dodge C. A New Approach to Monitoring Exercise Training. *Journal of Strength and Conditioning Research* 15: 109–115, 2001.</dd>
 
 
-Skiba PF, Chidnok W, Vanhatalo A, Jones AM. Modeling the Expenditure and Reconstitution of Work Capacity above Critical Power. *Medicine & Science in Sports & Exercise* 44: 1526–1532, 2012.
+<dd>Jones AM, Vanhatalo A, Burnley M, Morton RH, Poole DC. Critical Power: Implications for Determination of VO2max and Exercise Tolerance. *Medicine & Science in Sports & Exercise* 42: 1876–1890, 2010.</dd>
 
+
+<dd>Skiba PF, Chidnok W, Vanhatalo A, Jones AM. Modeling the Expenditure and Reconstitution of Work Capacity above Critical Power. *Medicine & Science in Sports & Exercise* 44: 1526–1532, 2012.</dd>
+</dl>
 
 
 

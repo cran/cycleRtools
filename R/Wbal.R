@@ -36,7 +36,7 @@
 #' @param character.only are column name arguments given as character strings? A
 #'   backdoor around non-standard evaluation.
 #'
-#' @examples
+#' @examples \dontrun{
 #' data(ridedata)
 #'
 #' ## Basic usage.
@@ -62,6 +62,7 @@
 #'
 #' ## Using underlying Rcpp function:
 #' Wbal_(t = 1:20, P = rnorm(20, 300, 50), CP = 300)  # Values are in joules.
+#' }
 #'
 #' @return A numeric vector of W' balance values, in kilojoules or joules for
 #'   \code{Wbal} or \code{Wbal_} respectively.

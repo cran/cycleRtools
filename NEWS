@@ -1,3 +1,8 @@
+Changes in 1.1.1
+  * Vignette index entry corrected.
+  * `leaflet` package added to suggests and example added to vignette.
+  * `testthat` tests aren't included in package build; see GitHub repo.
+
 Changes in 1.1.0
   * Improvements to rolling operations. Rcpp function (`rollmean_`) now exported.
   * `read()` wrapper function renamed to `read_ride()` to avoid naming conflicts.

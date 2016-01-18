@@ -67,3 +67,7 @@ plot(times_sec, prof[1, ], ylim = c(hypm["CP"], max(prof[1, ])),
 ## Showing an exponential model, as it best fits these data.
 curve(ms$Pfn$exp(x), add = TRUE, col = "red")
 
+## ---- fig.height=3-------------------------------------------------------
+library(leaflet)
+leaflet(intervaldata) %>% addTiles() %>% addPolylines(~lon, ~lat)
+
